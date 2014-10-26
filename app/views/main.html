@@ -1,0 +1,40 @@
+<form editable-form name="editableForm" class="form-horizontal" onaftersave="saveUser()">
+  <div class="form-group">
+    <label class="col-sm-2">User name</label>
+    <div class="col-sm-10">
+      <span editable-text="user.name" e-name="name" onbeforesave="checkName($data)" e-required>{{ user.name || 'empty' }}</span>
+    </div>
+  </div> 
+  
+  <div class="form-group">
+    <label class="col-sm-2">Status</label>
+    <div class="col-sm-10">
+      <span editable-select="user.status" e-name="status" e-ng-options="s.value as s.text for s in statuses">
+        {{ (statuses | filter:{value: user.status})[0].text || 'Not set' }}
+      </span>
+    </div>
+  </div>  
+
+  <div class="form-group">
+    <label class="col-sm-2">Group</label>
+    <div class="col-sm-10">
+      <span editable-select="user.group" e-name="group" onshow="loadGroups()" e-ng-options="g.id as g.text for g in groups">
+        {{ showGroup() }}
+      </span>
+    </div>
+  </div>
+  
+  <div>
+    <button type="button" class="btn btn-default" ng-click="editableForm.$show()" ng-show="!editableForm.$visible">
+      Edit
+    </button>
+    <span ng-show="editableForm.$visible">
+      <button type="submit" class="btn btn-primary" ng-disabled="editableForm.$waiting">
+        Save
+      </button>
+      <button type="button" class="btn btn-default" ng-disabled="editableForm.$waiting" ng-click="editableForm.$cancel()">
+        Cancel
+      </button>
+    </span>
+  </div>
+</form>
